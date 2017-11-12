@@ -351,11 +351,11 @@ void writeConfig(byte tableNum)
 
     case canbusPage:
       /*---------------------------------------------------
-      | Config page 10 (See storage.h for data layout)
+      | Config page 9 (See storage.h for data layout)
       | 128 byte long config table
       -----------------------------------------------------*/
-      pnt_configPage = (byte *)&configPage9; //Create a pointer to Page 10 in memory
-      for(int x=EEPROM_CONFIG9_START; x<EEPROM_CONFIG9_END; x++)
+      pnt_configPage = (byte *)&configPage9; //Create a pointer to Page 9 in memory
+      for(int x=EEPROM_CONFIG9_START; x<(EEPROM_CONFIG9_END - 16); x++)
       {
         if( (writeCounter > EEPROM_MAX_WRITE_BLOCK) ) { break; } //This is a safety check to make sure we don't attempt to write too much to the EEPROM at a time.
         if(EEPROM.read(x) != *(pnt_configPage + byte(x - EEPROM_CONFIG9_START))) { EEPROM.write(x, *(pnt_configPage + byte(x - EEPROM_CONFIG9_START))); writeCounter++; }
@@ -583,8 +583,8 @@ void loadConfig()
   }
   //*********************************************************************************************************************************************************************************
   //canbus control page load
-    pnt_configPage = (byte *)&configPage9; //Create a pointer to Page 10 in memory
-  for(int x=EEPROM_CONFIG9_START; x<EEPROM_CONFIG9_END; x++)
+    pnt_configPage = (byte *)&configPage9; //Create a pointer to Page 9 in memory
+  for(int x=EEPROM_CONFIG9_START; x<(EEPROM_CONFIG9_END-16); x++)
   {
     *(pnt_configPage + byte(x - EEPROM_CONFIG9_START)) = EEPROM.read(x);
   }
