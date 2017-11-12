@@ -226,6 +226,10 @@ void setPinMapping(byte boardID)
       pinLaunch = 51; //Can be overwritten below
       pinFlex = 2; // Flex sensor (Must be external interrupt enabled)
       pinResetControl = 43; //Reset control output
+      pinHC1 = 6;
+      pinHC2 = 4;
+      pinHC3 = 5;
+      pinHC4 = 7;
 
       #if defined(CORE_TEENSY)
         pinTrigger = 23;
@@ -557,10 +561,10 @@ void setPinMapping(byte boardID)
   /* Reset control is a special case. If reset control is enabled, it needs its initial state set BEFORE its pinMode.
      If that doesn't happen and reset control is in "Serial Command" mode, the Arduino will end up in a reset loop
      because the control pin will go low as soon as the pinMode is set to OUTPUT. */
-  if ( (configPage2.resetControl != 0) && (configPage2.resetControlPin < BOARD_NR_GPIO_PINS) )
+  if ( (configPage4.resetControl != 0) && (configPage4.resetControlPin < BOARD_NR_GPIO_PINS) )
   {
-    resetControl = configPage2.resetControl;
-    pinResetControl = pinTranslate(configPage2.resetControlPin);
+    resetControl = configPage4.resetControl;
+    pinResetControl = pinTranslate(configPage4.resetControlPin);
     setResetControlPinState();
     pinMode(pinResetControl, OUTPUT);
   }
@@ -587,6 +591,10 @@ void setPinMapping(byte boardID)
   pinMode(pinStepperEnable, OUTPUT);
   pinMode(pinBoost, OUTPUT);
   pinMode(pinVVT_1, OUTPUT);
+  pinMode(pinHC1, OUTPUT);
+  pinMode(pinHC2, OUTPUT);
+  pinMode(pinHC3, OUTPUT);
+  pinMode(pinHC4, OUTPUT);
 
   inj1_pin_port = portOutputRegister(digitalPinToPort(pinInjector1));
   inj1_pin_mask = digitalPinToBitMask(pinInjector1);

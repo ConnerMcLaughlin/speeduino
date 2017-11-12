@@ -18,7 +18,7 @@ void initialiseDisplay()
   //Protection against older pin mappings where the crank/cam signals were on the SDA and SCL pins. This will cause the Arduino to lock hard if you try to initialise i2c devices when a crank signal is coming in
   if(pinTrigger == 20 || pinTrigger == 21 || pinTrigger2 == 20 || pinTrigger2 == 21) { return; }
 
-   switch(configPage1.displayType)
+   switch(configPage2.displayType)
    {
      case 1:
        display.SSD1306_SETCOMPINS_V = 0x02;
@@ -48,7 +48,7 @@ void updateDisplay()
 {
   display.clearDisplay();
   display.setCursor(0,0);
-  switch(configPage1.display1)
+  switch(configPage2.display1)
   {
     case 0:
       display.print("RPM: ");
@@ -93,7 +93,7 @@ void updateDisplay()
   }
 
   display.setCursor(0,11);
-  switch(configPage1.display3)
+  switch(configPage2.display3)
   {
     case 0:
       display.print("RPM: ");
@@ -138,7 +138,7 @@ void updateDisplay()
   }
 
   display.setCursor(64,0);
-  switch(configPage1.display2)
+  switch(configPage2.display2)
   {
     case 0:
       display.print("O2: ");
@@ -163,7 +163,7 @@ void updateDisplay()
   }
 
   display.setCursor(64,11);
-  switch(configPage1.display4)
+  switch(configPage2.display4)
   {
     case 0:
       display.print("O2: ");

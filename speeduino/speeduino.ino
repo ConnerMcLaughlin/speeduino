@@ -55,7 +55,7 @@ struct config10 configPage10;
 struct config2 configPage1;
 struct config6 configPage3;
 struct config9 configPage9;
-struct config10 configPage11;
+struct config10 configPage10;
 */
 
 uint16_t req_fuel_uS, inj_opentime_uS;
@@ -141,6 +141,7 @@ bool initialisationComplete = false; //Tracks whether the setup() functino has r
 
 void setup()
 {
+  currentStatus.testOutputs = 0;      //clear all the hardware test  flag
   initialiseTimers();
   digitalWrite(LED_BUILTIN, LOW);
 
@@ -163,7 +164,7 @@ void setup()
 
   //Always start with a clean slate on the bootloader capabilities level
   //This should be 0 until we hear otherwise from the 16u2
-  configPage2.bootloaderCaps = 0;
+  configPage4.bootloaderCaps = 0;
 
   Serial.begin(115200);
 #if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) //ATmega2561 does not have Serial3
@@ -224,16 +225,16 @@ void setup()
 
   flexFuelTable.valueSize = SIZE_BYTE;
   flexFuelTable.xSize = 6;
-  flexFuelTable.values = configPage11.flexFuelAdj;
-  flexFuelTable.axisX = configPage11.flexFuelBins;
+  flexFuelTable.values = configPage10.flexFuelAdj;
+  flexFuelTable.axisX = configPage10.flexFuelBins;
   flexAdvTable.valueSize = SIZE_BYTE;
   flexAdvTable.xSize = 6;
-  flexAdvTable.values = configPage11.flexAdvAdj;
-  flexAdvTable.axisX = configPage11.flexAdvBins;
+  flexAdvTable.values = configPage10.flexAdvAdj;
+  flexAdvTable.axisX = configPage10.flexAdvBins;
   flexBoostTable.valueSize = SIZE_INT;
   flexBoostTable.xSize = 6;
-  flexBoostTable.values16 = configPage11.flexBoostAdj;
-  flexBoostTable.axisX = configPage11.flexBoostBins;
+  flexBoostTable.values16 = configPage10.flexBoostAdj;
+  flexBoostTable.axisX = configPage10.flexBoostBins;
 
   //Setup the calibration tables
   loadCalibration();
@@ -700,8 +701,11 @@ void setup()
   }
 
   //Begin priming the fuel pump. This is turned off in the low resolution, 1s interrupt in timers.ino
-  digitalWrite(pinFuelPump, HIGH);
-  fuelPumpOn = true;
+      //if( BIT_CHECK(currentStatus.testOutputs, 1 == 0) )
+     // {
+        driveFuelpump(1);//digitalWrite(pinFuelPump, HIGH);
+        //fuelPumpOn = true;
+     // }  
   interrupts();
   //Perform the priming pulses. Set these to run at an arbitrary time in the future (100us). The prime pulse value is in ms*10, so need to multiple by 100 to get to uS
   setFuelSchedule1(100, (unsigned long)(configPage2.primePulse * 100));
@@ -758,6 +762,11 @@ void loop()
           }
 #endif
 
+    if( BIT_CHECK(currentStatus.testOutputs, 1 == 0) )
+      {
+        return;
+      }
+      
     //Displays currently disabled
     // if (configPage2.displayType && (mainLoopCount & 255) == 1) { updateDisplay();}
 
@@ -767,8 +776,11 @@ void loop()
     if ( (timeToLastTooth < MAX_STALL_TIME) || (toothLastToothTime > currentLoopTime) ) //Check how long ago the last tooth was seen compared to now. If it was more than half a second ago then the engine is probably stopped. toothLastToothTime can be greater than currentLoopTime if a pulse occurs between getting the lastest time and doing the comparison
     {
       currentStatus.RPM = currentStatus.longRPM = getRPM(); //Long RPM is included here
-      FUEL_PUMP_ON();
-      fuelPumpOn = true; //Not sure if this is needed.
+      //if( BIT_CHECK(currentStatus.testOutputs, 1 == 0) )
+      //  {
+          driveFuelpump(1);//FUEL_PUMP_ON();
+          //fuelPumpOn = true; //Not sure if this is needed.
+      //  }  
     }
     else
     {
@@ -792,7 +804,7 @@ void loop()
       ignitionCount = 0;
       ignitionOn = false;
       fuelOn = false;
-      if (fpPrimed == true) { digitalWrite(pinFuelPump, LOW); fuelPumpOn = false; } //Turn off the fuel pump, but only if the priming is complete
+      if (fpPrimed == true) {driveFuelpump(0);}// digitalWrite(pinFuelPump, LOW); fuelPumpOn = false; } //Turn off the fuel pump, but only if the priming is complete  
       disableIdle(); //Turn off the idle PWM
       BIT_CLEAR(currentStatus.engine, BIT_ENGINE_CRANK); //Clear cranking bit (Can otherwise get stuck 'on' even with 0 rpm)
       BIT_CLEAR(currentStatus.engine, BIT_ENGINE_WARMUP); //Same as above except for WUE
@@ -802,8 +814,11 @@ void loop()
       //It can possibly be run much less frequently.
       initialiseTriggers();
 
-      VVT_PIN_LOW();
+    //if( BIT_CHECK(currentStatus.testOutputs, 1 == 0) )
+    //  {
+        driveVVT_1(0);//VVT_PIN_LOW();
       DISABLE_VVT_TIMER();
+    //  }  
       boostDisable();
     }
 
