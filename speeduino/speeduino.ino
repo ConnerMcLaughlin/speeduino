@@ -856,6 +856,7 @@ void loop()
        readIAT();
        readO2();
        readBat();
+       readACReq();
 
        if(eepromWritesPending == true) { writeAllConfig(); } //Check for any outstanding EEPROM writes.
 
