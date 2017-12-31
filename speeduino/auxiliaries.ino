@@ -36,6 +36,15 @@ void fanControl()
   }
 }
 
+void CELcontrol()
+{
+  if ((currentStatus.RPM == 0) || (currentStatus.tpsADC > configPage1.tpsMax + 1) || (currentStatus.tpsADC < configPage1.tpsMin - 1)/* || (currentStatus.mapADC > configPage1.mapMax + 1) || (currentStatus.mapADC < configPage1.mapMin - 1)*/ || (currentStatus.RPM > 6400))
+  {
+    digitalWrite(53, HIGH);
+  }
+  else {digitalWrite(53, LOW);}
+}
+
 void vvlControl()
 {
   if ((currentStatus.RPM >= 8800) && (currentStatus.TPS > 80) && (currentStatus.coolant > 50)){
