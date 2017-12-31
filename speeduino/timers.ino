@@ -217,6 +217,13 @@ void oneMSInterval() //Most ARM chips can simply call a function
 
     }
 
+//high idle function
+    if ( ( currentStatus.RPM > 950 ) && ( currentStatus.TPS > 30 ) )
+    {
+      currentStatus.highIdleCount++;
+      if (currentStatus.highIdleCount <= 2 ) {currentStatus.highIdleReq = true;}
+    }
+    else {currentStatus.highIdleReq = false; currentStatus.highIdleCount = 0;}
   }
 #if defined(CORE_AVR) //AVR chips use the ISR for this
     //Reset Timer2 to trigger in another ~1ms
