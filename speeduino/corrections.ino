@@ -68,6 +68,11 @@ static inline byte correctionsFuel()
   if (currentStatus.iatCorrection != 100) { sumCorrections = (sumCorrections * currentStatus.iatCorrection); activeCorrections++; }
   if (activeCorrections == 3) { sumCorrections = sumCorrections / powint(100,activeCorrections); activeCorrections = 0; }
 
+  currentStatus.vvlCorrection = correctionVVL();
+  if (currentStatus.vvlCorrection != 100) { sumCorrections = (sumCorrections * currentStatus.vvlCorrection); activeCorrections++; }
+  if (activeCorrections == 3) { sumCorrections = sumCorrections / powint(100,activeCorrections); activeCorrections = 0; }
+
+
   currentStatus.flexCorrection = correctionFlex();
   if (currentStatus.flexCorrection != 100) { sumCorrections = (sumCorrections * currentStatus.flexCorrection); activeCorrections++; }
   if (activeCorrections == 3) { sumCorrections = sumCorrections / powint(100,activeCorrections); activeCorrections = 0; }
@@ -245,6 +250,16 @@ static inline byte correctionIATDensity()
   else { IATValue = table2D_getValue(&IATDensityCorrectionTable, currentStatus.IAT + CALIBRATION_TEMPERATURE_OFFSET); }//currentStatus.IAT is the actual temperature, values in IATDensityCorrectionTable.axisX are temp+offset
 
   return IATValue;
+}
+
+
+//Simple correction for when VVL is active
+
+static inline byte correctionVVL()
+{
+  byte VVLValue = 100;
+  if (currentStatus.vvlOn) { VVLValue = 107; } //Adds 7% fuel when VVL is active
+  return VVLValue;
 }
 
 /*

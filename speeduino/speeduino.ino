@@ -901,6 +901,7 @@ void loop()
           }
 #endif
        vvtControl();
+       vvlControl();
        idleControl(); //Perform any idle related actions. Even at higher frequencies, running 4x per second is sufficient.
     }
     if (BIT_CHECK(LOOP_TIMER, BIT_TIMER_1HZ)) //Once per second)

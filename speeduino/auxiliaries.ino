@@ -30,6 +30,17 @@ void fanControl()
   }
 }
 
+void vvlControl()
+{
+  if ((currentStatus.RPM >= 8800) && (currentStatus.TPS > 80) && (currentStatus.coolant > 50)){
+    if (!currentStatus.vvlOn){
+      currentStatus.vvlOn = true;
+      digitalWrite(6, HIGH);
+    }
+  }
+  else if ((currentStatus.RPM <= 8600) && (currentStatus.TPS < 80)) { digitalWrite(6, LOW);  currentStatus.vvlOn = false;}
+}
+
 void initialiseAuxPWM()
 {
   #if defined(CORE_AVR)
