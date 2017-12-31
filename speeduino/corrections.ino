@@ -493,5 +493,7 @@ uint16_t correctionsDwell(uint16_t dwell)
     //Possibly need some method of reducing spark duration here as well, but this is a start
     tempDwell = (revolutionTime / pulsesPerRevolution) - (configPage2.sparkDur * 100);
   }
+	//reduce dwell in WOT
+  if (currentStatus.TPS > 85){ tempDwell = (tempDwell - 1500);}
   return tempDwell;
 }
