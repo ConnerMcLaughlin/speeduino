@@ -284,6 +284,8 @@ struct statuses {
   bool AcReq; // AC request
   bool highIdleReq; //raises idle in open loop to evade stalling
   byte highIdleCount = 0;// counts to wait for normal idle
+  bool DFCOwait; // waits to enable DFCO
+  byte DFCOcounter = 0;// counts cycles till dfco
   bool vvlOn = false;
   volatile byte ethanolPct; //Ethanol reading (if enabled). 0 = No ethanol, 100 = pure ethanol. Eg E85 = 85.
   unsigned long TAEEndTime; //The target end time used whenever TAE is turned on
