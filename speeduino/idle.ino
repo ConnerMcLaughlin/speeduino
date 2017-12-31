@@ -229,6 +229,7 @@ void idleControl()
       {
         //Standard running
         currentStatus.idleDuty = table2D_getValue(&iacPWMTable, currentStatus.coolant + CALIBRATION_TEMPERATURE_OFFSET); //All temps are offset by 40 degrees
+		if (currentStatus.AcReq == true){ currentStatus.idleDuty = currentStatus.idleDuty + 9;}
         if( currentStatus.idleDuty == 0 ) { disableIdle(); break; }
         enableIdle();
         idle_pwm_target_value = percentage(currentStatus.idleDuty, idle_pwm_max_count);
