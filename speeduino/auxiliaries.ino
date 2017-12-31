@@ -36,6 +36,17 @@ void fanControl()
   }
 }
 
+void vvlControl()
+{
+  if ((currentStatus.RPM >= 8800) && (currentStatus.TPS > 80) && (currentStatus.coolant > 50)){
+    if (!currentStatus.vvlOn){
+      currentStatus.vvlOn = true;
+      digitalWrite(6, HIGH);
+    }
+  }
+  else if ((currentStatus.RPM <= 8600) && (currentStatus.TPS < 80)) { digitalWrite(6, LOW);  currentStatus.vvlOn = false;}
+}
+
 void ACControl()
 {
   if ((currentStatus.AcReq) && (currentStatus.TPS < 60) && (currentStatus.RPM > 600) && (currentStatus.RPM < 3600)){digitalWrite(45, HIGH); currentStatus.ACOn = true;}// turn on AC compressor
