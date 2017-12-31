@@ -216,6 +216,13 @@ void oneMSInterval() //Most ARM chips can simply call a function
 
     }
 
+    //DFCO wait time
+    if ( ( currentStatus.RPM > ( configPage2.dfcoRPM * 10) ) && ( currentStatus.TPS < configPage2.dfcoTPSThresh ) )
+    {
+      currentStatus.DFCOcounter++;
+      if (currentStatus.DFCOcounter > 2 ) {currentStatus.DFCOwait = true;}
+    }
+    else {currentStatus.DFCOwait = false; currentStatus.DFCOcounter = 0;}
   }
 #if defined(CORE_AVR) //AVR chips use the ISR for this
     //Reset Timer2 to trigger in another ~1ms

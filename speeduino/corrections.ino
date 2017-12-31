@@ -267,8 +267,8 @@ static inline bool correctionDFCO()
   bool DFCOValue = false;
   if ( configPage1.dfcoEnabled == 1 )
   {
-    if ( bitRead(currentStatus.status1, BIT_STATUS1_DFCO) == 1 ) { DFCOValue = ( currentStatus.RPM > ( configPage2.dfcoRPM * 10) ) && ( currentStatus.TPS < configPage2.dfcoTPSThresh ); }
-    else { DFCOValue = ( currentStatus.RPM > (unsigned int)( (configPage2.dfcoRPM * 10) + configPage2.dfcoHyster) ) && ( currentStatus.TPS < configPage2.dfcoTPSThresh ); }
+    if ( bitRead(currentStatus.status1, BIT_STATUS1_DFCO) == 1 ) { DFCOValue = ( currentStatus.RPM > ( configPage2.dfcoRPM * 10) ) && ( currentStatus.TPS < configPage2.dfcoTPSThresh ) && (currentStatus.DFCOwait); }
+    else { DFCOValue = ( currentStatus.RPM > (unsigned int)( (configPage2.dfcoRPM * 10) + configPage2.dfcoHyster) ) && ( currentStatus.TPS < configPage2.dfcoTPSThresh ) && (currentStatus.DFCOwait); }
   }
   return DFCOValue;
 }
