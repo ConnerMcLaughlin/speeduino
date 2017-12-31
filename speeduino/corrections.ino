@@ -379,12 +379,32 @@ int8_t correctionsIgn(int8_t base_advance)
   advance = correctionSoftRevLimit(advance);
   advance = correctionSoftLaunch(advance);
   advance = correctionSoftFlatShift(advance);
+  advance = correctionZeroThrottleTiming(advance);
 
   //Fixed timing check must go last
   advance = correctionFixedTiming(advance);
   advance = correctionCrankingFixedTiming(advance); //This overrrides the regular fixed timing, must come last
 
   return advance;
+}
+
+static inline int8_t correctionZeroThrottleTiming(int8_t advance)
+{
+  byte ignZeroThrottleValue = advance;
+  if (currentStatus.TPS < 2) //Check whether TPS coorelates to zero value
+  {
+    if (currentStatus.RPM > 950) { ignZeroThrottleValue = -5;}
+    else if ((currentStatus.RPM > 900) && (currentStatus.RPM <= 950)) { ignZeroThrottleValue = -1;}
+    else if ((currentStatus.RPM > 860) && (currentStatus.RPM <= 900)) { ignZeroThrottleValue = 1;}
+    else if ((currentStatus.RPM > 800) && (currentStatus.RPM < 860)) { ignZeroThrottleValue = 3;}
+    else if ((currentStatus.RPM > 750) && (currentStatus.RPM <= 800)) { ignZeroThrottleValue = 5;}
+    else if ((currentStatus.RPM > 700) && (currentStatus.RPM <= 750)) { ignZeroThrottleValue = 7;}
+    else if ((currentStatus.RPM > 650) && (currentStatus.RPM <= 700)) { ignZeroThrottleValue = 10;}
+    else if (currentStatus.RPM <= 650) { ignZeroThrottleValue = 14;}
+    else {ignZeroThrottleValue = 10;}
+    if (currentStatus.ACOn == true) {ignZeroThrottleValue = ignZeroThrottleValue + 5;}
+  }
+  return ignZeroThrottleValue;
 }
 
 static inline int8_t correctionFixedTiming(int8_t advance)
