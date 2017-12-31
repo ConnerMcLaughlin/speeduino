@@ -18,6 +18,12 @@ void initialiseFan()
   currentStatus.fanOn = false;
 }
 
+void initialiseAC()
+{
+  digitalWrite(44, LOW); // initialize AC low
+  currentStatus.ACOn = false;
+}
+
 void fanControl()
 {
   if( configPage3.fanEnable == 1 )
@@ -28,6 +34,12 @@ void fanControl()
     if ( (!currentStatus.fanOn) && (currentStatus.coolant >= onTemp) ) { digitalWrite(pinFan,fanHIGH); currentStatus.fanOn = true; }
     if ( (currentStatus.fanOn) && (currentStatus.coolant <= offTemp) ) { digitalWrite(pinFan, fanLOW); currentStatus.fanOn = false; }
   }
+}
+
+void ACControl()
+{
+  if ((currentStatus.AcReq) && (currentStatus.TPS < 60) && (currentStatus.RPM > 600) && (currentStatus.RPM < 3600)){digitalWrite(45, HIGH); currentStatus.ACOn = true;}// turn on AC compressor
+  else{ digitalWrite(45, LOW); currentStatus.ACOn = false;} // shut down AC compressor
 }
 
 void initialiseAuxPWM()

@@ -540,6 +540,7 @@ void setPinMapping(byte boardID)
   pinMode(pinStepperEnable, OUTPUT);
   pinMode(pinBoost, OUTPUT);
   pinMode(pinVVT_1, OUTPUT);
+  pinMode(45, OUTPUT); //ac control
 
   inj1_pin_port = portOutputRegister(digitalPinToPort(pinInjector1));
   inj1_pin_mask = digitalPinToBitMask(pinInjector1);
@@ -589,6 +590,8 @@ void setPinMapping(byte boardID)
       pinMode(pinCLT, INPUT);
       pinMode(pinBat, INPUT);
       pinMode(pinBaro, INPUT);
+	  pinMode(26, INPUT); // pin input for AC
+      pinMode(28, INPUT_PULLUP); // pin input for AC pressure check, only usable when pulls to ground on overpressure
     #endif
   #endif
   pinMode(pinTrigger, INPUT);
