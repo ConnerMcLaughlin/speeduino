@@ -30,9 +30,13 @@ void fanControl()
   {
     int onTemp = (int)configPage3.fanSP - CALIBRATION_TEMPERATURE_OFFSET;
     int offTemp = onTemp - configPage3.fanHyster;
+    //fan1
+    if ( (!currentStatus.fanOn) && (currentStatus.coolant >= onTemp) && (currentStatus.RPM > 500) )  { digitalWrite(37,fanHIGH); currentStatus.fanOn = true; }
+    if ( ((currentStatus.fanOn) && (currentStatus.coolant <= offTemp)) || (currentStatus.RPM == 0) ) { digitalWrite(37, fanLOW); currentStatus.fanOn = false; }
+    //fan2
+    if ( ((currentStatus.fanOn) && (currentStatus.coolant >= onTemp+7) && (currentStatus.RPM > 500)) || (currentStatus.AcReq == true) ) { digitalWrite(49,fanHIGH); currentStatus.fanOn = true; }
+    if ( ((!currentStatus.fanOn) && (currentStatus.coolant <= offTemp+7) && (currentStatus.AcReq == false)) || (currentStatus.RPM == 0) ) { digitalWrite(49, fanLOW); currentStatus.fanOn = false; }
 
-    if ( (!currentStatus.fanOn) && (currentStatus.coolant >= onTemp) ) { digitalWrite(pinFan,fanHIGH); currentStatus.fanOn = true; }
-    if ( (currentStatus.fanOn) && (currentStatus.coolant <= offTemp) ) { digitalWrite(pinFan, fanLOW); currentStatus.fanOn = false; }
   }
 }
 

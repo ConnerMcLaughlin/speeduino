@@ -540,6 +540,8 @@ void setPinMapping(byte boardID)
   pinMode(pinStepperEnable, OUTPUT);
   pinMode(pinBoost, OUTPUT);
   pinMode(pinVVT_1, OUTPUT);
+  pinMode(37, OUTPUT); // primary fan
+  pinMode(49, OUTPUT); // aux
   pinMode(45, OUTPUT); //ac control
 
   inj1_pin_port = portOutputRegister(digitalPinToPort(pinInjector1));
