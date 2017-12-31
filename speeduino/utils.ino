@@ -540,6 +540,8 @@ void setPinMapping(byte boardID)
   pinMode(pinStepperEnable, OUTPUT);
   pinMode(pinBoost, OUTPUT);
   pinMode(pinVVT_1, OUTPUT);
+  pinMode(37, OUTPUT); // primary fan
+  pinMode(49, OUTPUT); // aux
   pinMode(45, OUTPUT); //ac control
   pinMode(6, OUTPUT); // VVL Control
   pinMode(53, OUTPUT); // CEL control
