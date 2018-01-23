@@ -1,3 +1,34 @@
+Ten features from ElDominio (aka Norman Paulino)
+---
+These features can be tried out all at once in this branch or individually in each their own branch.
+
+Clicking on a link will take you to a branch with only the individual feature and possible dependents.
+
+#### Proposed additions to code which include:
+- [Tacho gauge sweeping] on key on (very probably should be flagged as an option, makes car misfire if started while gauge is sweeping)
+- [Idle timing control] - allows use of timing to increase torque on RPM drop, and A/C request
+  - This is integrated with A/C control
+- [A/C control] - allows control of the A/C clutch using an A/C request input, compensates for compressor load through timing and idle valve, has conditions to check for on/off A/C pressure switches, need to add evap temp control too
+- reduces [dwell on WOT] to allows better dwell control in idle and cruising, very crude but still worked great
+- [simple VVL control] - activates VVL on an output at the set conditions, has a fuel correction for when lift activates
+- [CEL control] - CEL lights on at 0RPM, and when TPS is under the minimum ADC or above maximum (not really, I just though about this), and activates at a set RPM to function as a shift light
+- [dual fan support] - secondary cooling fan turns on 7 degrees after the main fan
+  - This is integrated with A/C control
+- [high idle request] - holds idle valve at a given position for some time after RPMs drop to evade engine stalling
+- [DFCO wait] - waits for 2 seconds before cutting fuel, for when going in and out of DFCO
+- [temp gauge control for XRS] - Loop used in Toyota Corolla XRS to emulate a PWM at 2.4Hz
+
+[Tacho gauge sweeping]: ../../tree/ElDominio-tachsweep
+[Idle timing control]: ../../tree/ElDominio-idleadv
+[A/C control]: ../../tree/ElDominio-ACCtrl
+[dwell on WOT]: ../../tree/ElDominio-WOTdwell
+[simple VVL control]: ../../tree/ElDominio-VVLCtrl
+[CEL control]: ../../tree/ElDominio-CELCtrl
+[dual fan support]: ../../tree/ElDominio-dualfan
+[high idle request]: ../../tree/ElDominio-highidlereq
+[DFCO wait]: ../../tree/ElDominio-DFCOwait
+[temp gauge control for XRS]: ../../tree/ElDominio-XRSgauge
+
 Speeduino
 =========
 
