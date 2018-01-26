@@ -10,24 +10,22 @@ integerPID_ideal boostPID(&currentStatus.MAP, &currentStatus.boostDuty , &curren
 /*
 Fan control
 */
-void initialiseFan()
+void initialiseFan1()
 {
-  if( configPage6.fanInv == 1 ) { fanHIGH = LOW; fanLOW = HIGH; }
-  else { fanHIGH = HIGH; fanLOW = LOW; }
-  digitalWrite(pinFan, fanLOW);         //Initiallise program with the fan in the off state
-  currentStatus.fanOn = false;
+  fan1_pin_port = portOutputRegister(digitalPinToPort(pinFan1));
+  fan1_pin_mask = digitalPinToBitMask(pinFan1);
+  if( configPage6.fan1Inv == 1 ) { fan1HIGH = LOW; fan1LOW = HIGH; }
+  else { fan1HIGH = HIGH; fan1LOW = LOW; }
+  driveFan1(0);
 }
 
-void fanControl()
+void initialiseFuelPump()
 {
-  if( configPage6.fanEnable == 1 )
-  {
-    int onTemp = (int)configPage6.fanSP - CALIBRATION_TEMPERATURE_OFFSET;
-    int offTemp = onTemp - configPage6.fanHyster;
-
-    if ( (!currentStatus.fanOn) && (currentStatus.coolant >= onTemp) ) { digitalWrite(pinFan,fanHIGH); currentStatus.fanOn = true; }
-    if ( (currentStatus.fanOn) && (currentStatus.coolant <= offTemp) ) { digitalWrite(pinFan, fanLOW); currentStatus.fanOn = false; }
-  }
+  pump_pin_port = portOutputRegister(digitalPinToPort(pinFuelPump));
+  pump_pin_mask = digitalPinToBitMask(pinFuelPump);
+  //if( configPage6.fan1Inv == 1 ) { fan1HIGH = LOW; fan1LOW = HIGH; }
+  //else { fan1HIGH = HIGH; fan1LOW = LOW; }
+  driveFuelpump(0);
 }
 
 void initialiseAuxPWM()
@@ -99,7 +97,7 @@ void boostControl()
         }
 
         bool PIDcomputed = boostPID.Compute(); //Compute() returns false if the required interval has not yet passed.
-        if(currentStatus.boostDuty == 0) { DISABLE_BOOST_TIMER(); driveBoost(0);}//BOOST_PIN_LOW(); } //If boost duty is 0, shut everything down
+        if(currentStatus.boostDuty == 0) { DISABLE_BOOST_TIMER(); driveBoost(0);}//If boost duty is 0, shut everything down
         else
         {
           if(PIDcomputed == true)
@@ -142,13 +140,13 @@ void vvtControl()
     if(vvtDuty == 0)
     {
       //Make sure solenoid is off (0% duty)
-      driveVVT_1(0);//VVT_PIN_LOW();
+      driveVVT_1(0);
       DISABLE_VVT_TIMER();
     }
     else if (vvtDuty >= 100)
     {
       //Make sure solenoid is on (100% duty)
-      driveVVT_1(1);//VVT_PIN_HIGH();
+      driveVVT_1(1);
       DISABLE_VVT_TIMER();
     }
     else
@@ -165,7 +163,7 @@ void boostDisable()
   boostPID.Initialize(); //This resets the ITerm value to prevent rubber banding
   currentStatus.boostDuty = 0;
   DISABLE_BOOST_TIMER(); //Turn off timer
-        driveBoost(0);//BOOST_PIN_LOW(); //Make sure solenoid is off (0% duty)
+        driveBoost(0); //Make sure solenoid is off (0% duty)
 }
 
 //The interrupt to control the Boost PWM
@@ -177,13 +175,13 @@ void boostDisable()
 {
   if (boost_pwm_state)
   {
-    driveBoost(0);//BOOST_PIN_LOW();  // Switch pin to low
+    driveBoost(0);// Switch pin to low
     BOOST_TIMER_COMPARE = BOOST_TIMER_COUNTER + (boost_pwm_max_count - boost_pwm_cur_value);
     boost_pwm_state = false;
   }
   else
   {
-    driveBoost(1);//BOOST_PIN_HIGH();  // Switch pin high
+    driveBoost(1);// Switch pin high
     BOOST_TIMER_COMPARE = BOOST_TIMER_COUNTER + boost_pwm_target_value;
     boost_pwm_cur_value = boost_pwm_target_value;
     boost_pwm_state = true;
@@ -199,57 +197,16 @@ void boostDisable()
 {
   if (vvt_pwm_state)
   {
-    driveVVT_1(0);//VVT_PIN_LOW();  // Switch pin to low
+    driveVVT_1(0);
     VVT_TIMER_COMPARE = VVT_TIMER_COUNTER + (vvt_pwm_max_count - vvt_pwm_cur_value);
     vvt_pwm_state = false;
   }
   else
   {
-    driveVVT_1(1);//VVT_PIN_HIGH();  // Switch pin high
+    driveVVT_1(1);
     VVT_TIMER_COMPARE = VVT_TIMER_COUNTER + vvt_pwm_target_value;
     vvt_pwm_cur_value = vvt_pwm_target_value;
     vvt_pwm_state = true;
   }
-}
-void driveFuelpump(bool on_off)
-{
-if(currentStatus.testOutputs == 0)
-  {  
-   if (on_off == 1){ 
-     FUEL_PUMP_ON();
-     fuelPumpOn = true;
-     }
-
-   if (on_off == 0){
-     FUEL_PUMP_OFF();
-     fuelPumpOn = false;
-     }  
-  }
-}
-void driveVVT_1(bool on_off)
-{
-if(currentStatus.testOutputs == 0)
-  {  
-   if (on_off == 1){ 
-     VVT_PIN_HIGH();
-     }
-
-   if (on_off == 0){
-     VVT_PIN_LOW();
-     }  
-  }    
-}
-void driveBoost(bool on_off)
-{
-if(currentStatus.testOutputs == 0)
-  {  
-   if (on_off == 1){ 
-     BOOST_PIN_HIGH();
-     }
-
-   if (on_off == 0){
-     BOOST_PIN_LOW();
-     }  
-  }      
 }
 

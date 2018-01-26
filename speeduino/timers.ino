@@ -178,11 +178,8 @@ void oneMSInterval() //Most ARM chips can simply call a function
     //increament secl (secl is simply a counter that increments every second and is used to track whether the system has unexpectedly reset
     currentStatus.secl++;
     //**************************************************************************************************************************************************
-    //Check the fan output status
-    if (configPage6.fanEnable == 1)
-    {
-       fanControl();            // Fucntion to turn the cooling fan on/off
-    }
+    //Drive the fan output status
+       driveFan1(3);            // Function to turn the cooling fan on/off
 
     //Check whether fuel pump priming is complete
     if(fpPrimed == false)
@@ -193,11 +190,7 @@ void oneMSInterval() //Most ARM chips can simply call a function
         if(currentStatus.RPM == 0)
         {
           //If we reach here then the priming is complete, however only turn off the fuel pump if the engine isn't running
-              //if( BIT_CHECK(currentStatus.testOutputs, 1 == 0) )
-              //  {
-                  driveFuelpump(0);//digitalWrite(pinFuelPump, LOW);
-                  //fuelPumpOn = false;
-              //  }  
+                  driveFuelpump(0); //fuel pump off;
         }
       }
     }

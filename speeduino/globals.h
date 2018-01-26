@@ -168,8 +168,9 @@
 
 #define SERIAL_BUFFER_THRESHOLD 32 // When the serial buffer is filled to greater than this threshold value, the serial processing operations will be performed more urgently in order to avoid it overflowing. Serial buffer is 64 bytes long, so the threshold is set at half this as a reasonable figure
 
-#define FUEL_PUMP_ON() *pump_pin_port |= (pump_pin_mask)
-#define FUEL_PUMP_OFF() *pump_pin_port &= ~(pump_pin_mask)
+/*these two macros are now replaced with inline functions in the HAL tab */
+//#define FUEL_PUMP_ON() *pump_pin_port |= (pump_pin_mask)
+//#define FUEL_PUMP_OFF() *pump_pin_port &= ~(pump_pin_mask)
 
 const char TSfirmwareVersion[] = "Speeduino 2016.09";
 
@@ -226,8 +227,6 @@ volatile byte ign5_pin_mask;
 
 volatile byte *tach_pin_port;
 volatile byte tach_pin_mask;
-volatile byte *pump_pin_port;
-volatile byte pump_pin_mask;
 
 volatile byte *triggerPri_pin_port;
 volatile byte triggerPri_pin_mask;
@@ -300,7 +299,8 @@ struct statuses {
   byte flexIgnCorrection; //Amount of additional advance being applied based on flex
   byte afrTarget;
   byte idleDuty;
-  bool fanOn; //Whether or not the fan is turned on
+  bool fan1On; //Whether or not the fan1 is turned on
+  bool fan2On; //Whether or not the fan2 is turned on
   volatile byte ethanolPct; //Ethanol reading (if enabled). 0 = No ethanol, 100 = pure ethanol. Eg E85 = 85.
   unsigned long TAEEndTime; //The target end time used whenever TAE is turned on
   volatile byte status1;
@@ -592,13 +592,13 @@ struct config6 {
   byte iacStepHome; //When using a stepper motor, the number of steps to be taken on startup to home the motor
   byte iacStepHyster; //Hysteresis temperature (*10). Eg 2.2C = 22
 
-  byte fanInv : 1;        // Fan output inversion bit
-  byte fanEnable : 1;     // Fan enable bit. 0=Off, 1=On/Off
-  byte fanPin : 6;
-  byte fanSP;             // Cooling fan start temperature
-  byte fanHyster;         // Fan hysteresis
-  byte fanFreq;           // Fan PWM frequency
-  byte fanPWMBins[4];     //Temperature Bins for the PWM fan control
+  byte fan1Inv : 1;        // Fan output inversion bit
+  byte fan1Enable : 1;     // Fan enable bit. 0=Off, 1=On/Off
+  byte fan1Pin : 6;
+  byte fan1SP;             // Cooling fan start temperature
+  byte fan1Hyster;         // Fan hysteresis
+  byte fan1Freq;           // Fan PWM frequency
+  byte fan1PWMBins[4];     //Temperature Bins for the PWM fan control
 #if defined(CORE_AVR)
   };
 #else
@@ -783,7 +783,8 @@ byte pinSpareLOut5;
 byte pinBoost;
 byte pinVVT_1;		// vvt output 1
 byte pinVVt_2;		// vvt output 2
-byte pinFan;       // Cooling fan output
+byte pinFan1;       // Cooling fan1 output
+byte pinFan2;       // Cooling fan2 output
 byte pinStepperDir; //Direction pin for the stepper motor driver
 byte pinStepperStep; //Step pin for the stepper motor driver
 byte pinStepperEnable; //Turning the DRV8825 driver on/off

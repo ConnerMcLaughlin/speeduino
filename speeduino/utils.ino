@@ -102,7 +102,7 @@ void setPinMapping(byte boardID)
       pinIdle2 = 47; //2 wire idle control
       pinStepperDir = 16; //Direction pin  for DRV8825 driver
       pinStepperStep = 17; //Step pin for DRV8825 driver
-      pinFan = 47; //Pin for the fan output
+      pinFan1 = 47; //Pin for the fan output
       pinFuelPump = 4; //Fuel pump output
       pinTachOut = 49; //Tacho output pin
       pinFlex = 19; // Flex sensor (Must be external interrupt enabled)
@@ -136,7 +136,7 @@ void setPinMapping(byte boardID)
       pinIdle2 = 31; //2 wire idle control
       pinStepperDir = 16; //Direction pin  for DRV8825 driver
       pinStepperStep = 17; //Step pin for DRV8825 driver
-      pinFan = 47; //Pin for the fan output
+      pinFan1 = 47; //Pin for the fan output
       pinFuelPump = 4; //Fuel pump output
       pinFlex = 2; // Flex sensor (Must be external interrupt enabled)
       pinResetControl = 43; //Reset control output
@@ -173,7 +173,7 @@ void setPinMapping(byte boardID)
       pinStepperDir = 16; //Direction pin  for DRV8825 driver
       pinStepperStep = 17; //Step pin for DRV8825 driver
       pinStepperEnable = 26; //Enable pin for DRV8825
-      pinFan = A13; //Pin for the fan output
+      pinFan1 = A13; //Pin for the fan output
       pinLaunch = 51; //Can be overwritten below
       pinFlex = 2; // Flex sensor (Must be external interrupt enabled)
       pinResetControl = 50; //Reset control output
@@ -184,7 +184,7 @@ void setPinMapping(byte boardID)
         pinStepperStep = 34;
         pinCoil1 = 31;
         pinTachOut = 28;
-        pinFan = 27;
+        pinFan1 = 27;
         pinCoil4 = 21;
         pinCoil3 = 30;
         pinO2 = A22;
@@ -222,7 +222,7 @@ void setPinMapping(byte boardID)
       pinStepperDir = 16; //Direction pin  for DRV8825 driver
       pinStepperStep = 17; //Step pin for DRV8825 driver
       pinStepperEnable = 24; //Enable pin for DRV8825
-      pinFan = 47; //Pin for the fan output (Goes to ULN2803)
+      pinFan1 = 47; //Pin for the fan output (Goes to ULN2803)
       pinLaunch = 51; //Can be overwritten below
       pinFlex = 2; // Flex sensor (Must be external interrupt enabled)
       pinResetControl = 43; //Reset control output
@@ -238,7 +238,7 @@ void setPinMapping(byte boardID)
         pinStepperStep = 35;
         pinCoil1 = 31;
         pinTachOut = 28;
-        pinFan = 27;
+        pinFan1 = 27;
         pinCoil4 = 29;
         pinCoil3 = 30;
         pinO2 = A22;
@@ -264,7 +264,7 @@ void setPinMapping(byte boardID)
         pinStepperStep = PB15; //Step pin for DRV8825 driver
         pinStepperEnable = PD9; //Enable pin for DRV8825
         pinDisplayReset = PE1; // OLED reset pin
-        pinFan = PE2; //Pin for the fan output
+        pinFan1 = PE2; //Pin for the fan output
         pinFuelPump = PA6; //Fuel pump output
         pinTachOut = PA7; //Tacho output pin
         //external interrupt enabled pins
@@ -295,7 +295,7 @@ void setPinMapping(byte boardID)
         pinStepperStep = 13; //Step pin for DRV8825 driver
         pinStepperEnable = 14; //Enable pin for DRV8825
         pinDisplayReset = 2; // OLED reset pin
-        pinFan = 1; //Pin for the fan output
+        pinFan1 = 1; //Pin for the fan output
         pinFuelPump = 0; //Fuel pump output
         pinTachOut = 31; //Tacho output pin
         //external interrupt enabled pins
@@ -336,7 +336,7 @@ void setPinMapping(byte boardID)
       pinFuelPump = 37; //Fuel pump output
       pinStepperDir = 16; //Direction pin  for DRV8825 driver
       pinStepperStep = 17; //Step pin for DRV8825 driver
-      pinFan = 35; //Pin for the fan output
+      pinFan1 = 35; //Pin for the fan output
       pinLaunch = 12; //Can be overwritten below
       pinFlex = 3; // Flex sensor (Must be external interrupt enabled)
       pinResetControl = 44; //Reset control output
@@ -351,7 +351,7 @@ void setPinMapping(byte boardID)
         pinCoil3 = 51; //Won't work (No mapping for pin 32)
         pinCoil4 = 52; //Won't work (No mapping for pin 33)
         pinFuelPump = 26; //Requires PVT4 adapter or above
-        pinFan = 50; //Won't work (No mapping for pin 35)
+        pinFan1 = 50; //Won't work (No mapping for pin 35)
         pinTachOut = 28; //Done
       #endif
       break;
@@ -386,7 +386,7 @@ void setPinMapping(byte boardID)
       pinSpareTemp2 = A5;
       pinTachOut = 41; //Tacho output pin transistori puuttuu 2n2222 tähän ja 1k 12v
       pinFuelPump = 42; //Fuel pump output 2n2222
-      pinFan = 47; //Pin for the fan output
+      pinFan1 = 47; //Pin for the fan output
       pinTachOut = 49; //Tacho output pin
       pinFlex = 2; // Flex sensor (Must be external interrupt enabled)
       pinResetControl = 26; //Reset control output
@@ -423,7 +423,7 @@ void setPinMapping(byte boardID)
       pinTPS = A2;//TPS input pin
       pinCLT = A1; //CLS sensor pin
       pinIAT = A0; //IAT sensor pin
-      pinFan = 47; //Pin for the fan output
+      pinFan1 = 47; //Pin for the fan output
       pinFuelPump = 4; //Fuel pump output
       pinTachOut = 49; //Tacho output pin
       pinResetControl = 26; //Reset control output
@@ -467,7 +467,7 @@ void setPinMapping(byte boardID)
       pinSpareLOut3 = 49;
       pinSpareLOut4 = 51;
       pinSpareLOut5 = 53;
-      pinFan = 47; //Pin for the fan output
+      pinFan1 = 47; //Pin for the fan output
     #endif
       break;
 
@@ -505,7 +505,7 @@ void setPinMapping(byte boardID)
       pinStepperEnable = 27; //Enable pin for DRV8825 driver
       pinLaunch = 10; //Can be overwritten below
       pinFlex = 20; // Flex sensor (Must be external interrupt enabled) - ONLY WITH DB
-      pinFan = 30; //Pin for the fan output - ONLY WITH DB
+      pinFan1 = 30; //Pin for the fan output - ONLY WITH DB
       pinSpareLOut1 = 32; //low current output spare1 - ONLY WITH DB
       pinSpareLOut2 = 34; //low current output spare2 - ONLY WITH DB
       pinSpareLOut3 = 36; //low current output spare3 - ONLY WITH DB
@@ -536,7 +536,7 @@ void setPinMapping(byte boardID)
       pinStepperDir = 16; //Direction pin  for DRV8825 driver
       pinStepperStep = 17; //Step pin for DRV8825 driver
       pinDisplayReset = 48; // OLED reset pin
-      pinFan = 47; //Pin for the fan output
+      pinFan1 = 47; //Pin for the fan output
       pinFuelPump = 4; //Fuel pump output
       pinTachOut = 49; //Tacho output pin
       pinFlex = 3; // Flex sensor (Must be external interrupt enabled)
@@ -553,7 +553,7 @@ void setPinMapping(byte boardID)
   if ( (configPage4.ignBypassPin != 0) && (configPage4.ignBypassPin < BOARD_NR_GPIO_PINS) ) { pinIgnBypass = pinTranslate(configPage4.ignBypassPin); }
   if ( (configPage2.tachoPin != 0) && (configPage2.tachoPin < BOARD_NR_GPIO_PINS) ) { pinTachOut = pinTranslate(configPage2.tachoPin); }
   if ( (configPage4.fuelPumpPin != 0) && (configPage4.fuelPumpPin < BOARD_NR_GPIO_PINS) ) { pinFuelPump = pinTranslate(configPage4.fuelPumpPin); }
-  if ( (configPage6.fanPin != 0) && (configPage6.fanPin < BOARD_NR_GPIO_PINS) ) { pinFan = pinTranslate(configPage6.fanPin); }
+  if ( (configPage6.fan1Pin != 0) && (configPage6.fan1Pin < BOARD_NR_GPIO_PINS) ) { pinFan1 = pinTranslate(configPage6.fan1Pin); }
   if ( (configPage6.boostPin != 0) && (configPage6.boostPin < BOARD_NR_GPIO_PINS) ) { pinBoost = pinTranslate(configPage6.boostPin); }
   if ( (configPage6.vvtPin != 0) && (configPage6.vvtPin < BOARD_NR_GPIO_PINS) ) { pinVVT_1 = pinTranslate(configPage6.vvtPin); }
   if ( (configPage6.useExtBaro != 0) && (configPage6.baroPin < BOARD_NR_GPIO_PINS) ) { pinBaro = configPage6.baroPin + A0; }
@@ -585,7 +585,7 @@ void setPinMapping(byte boardID)
   pinMode(pinIdle2, OUTPUT);
   pinMode(pinFuelPump, OUTPUT);
   pinMode(pinIgnBypass, OUTPUT);
-  pinMode(pinFan, OUTPUT);
+  pinMode(pinFan1, OUTPUT);
   pinMode(pinStepperDir, OUTPUT);
   pinMode(pinStepperStep, OUTPUT);
   pinMode(pinStepperEnable, OUTPUT);
@@ -620,8 +620,6 @@ void setPinMapping(byte boardID)
 
   tach_pin_port = portOutputRegister(digitalPinToPort(pinTachOut));
   tach_pin_mask = digitalPinToBitMask(pinTachOut);
-  pump_pin_port = portOutputRegister(digitalPinToPort(pinFuelPump));
-  pump_pin_mask = digitalPinToBitMask(pinFuelPump);
 
   //And for inputs
   //And for inputs

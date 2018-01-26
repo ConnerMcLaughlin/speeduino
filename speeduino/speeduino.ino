@@ -41,6 +41,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "errors.h"
 #include "storage.h"
 #include "scheduledIO.h"
+#include "HAL.h"
 #include <EEPROM.h>
 #if defined (CORE_TEENSY)
 #include <FlexCAN.h>
@@ -63,8 +64,6 @@ uint16_t staged_req_fuel_mult_pri;
 uint16_t staged_req_fuel_mult_sec;
 
 bool ignitionOn = false; //The current state of the ignition system
-bool fuelOn = false; //The current state of the ignition system
-bool fuelPumpOn = false; //The current status of the fuel pump
 
 void (*trigger)(); //Pointer for the trigger function (Gets pointed to the relevant decoder)
 void (*triggerSecondary)(); //Pointer for the secondary trigger function (Gets pointed to the relevant decoder)
@@ -91,8 +90,6 @@ int CRANK_ANGLE_MAX_INJ = 360; // The number of crank degrees that the system tr
 
 static byte coilHIGH = HIGH;
 static byte coilLOW = LOW;
-static byte fanHIGH = HIGH;             // Used to invert the cooling fan output
-static byte fanLOW = LOW;               // Used to invert the cooling fan output
 
 volatile uint16_t mainLoopCount;
 byte deltaToothCount = 0; //The last tooth that was used with the deltaV calc
@@ -269,8 +266,10 @@ void setup()
   //Perform all initialisations
   initialiseSchedulers();
   //initialiseDisplay();
+  initialiseFuelPump();
   initialiseIdle();
-  initialiseFan();
+  initialiseFan1();
+  //initialiseFan2();
   initialiseAuxPWM();
   initialiseCorrections();
   initialiseADC();
@@ -703,11 +702,8 @@ void setup()
   }
 
   //Begin priming the fuel pump. This is turned off in the low resolution, 1s interrupt in timers.ino
-      //if( BIT_CHECK(currentStatus.testOutputs, 1 == 0) )
-     // {
-        driveFuelpump(1);//digitalWrite(pinFuelPump, HIGH);
-        //fuelPumpOn = true;
-     // }  
+  driveFuelpump(1);// fuel pump on
+  
   interrupts();
   //Perform the priming pulses. Set these to run at an arbitrary time in the future (100us). The prime pulse value is in ms*10, so need to multiple by 100 to get to uS
   setFuelSchedule1(100, (unsigned long)(configPage2.primePulse * 100));
@@ -778,11 +774,7 @@ void loop()
     if ( (timeToLastTooth < MAX_STALL_TIME) || (toothLastToothTime > currentLoopTime) ) //Check how long ago the last tooth was seen compared to now. If it was more than half a second ago then the engine is probably stopped. toothLastToothTime can be greater than currentLoopTime if a pulse occurs between getting the lastest time and doing the comparison
     {
       currentStatus.RPM = currentStatus.longRPM = getRPM(); //Long RPM is included here
-      //if( BIT_CHECK(currentStatus.testOutputs, 1 == 0) )
-      //  {
-          driveFuelpump(1);//FUEL_PUMP_ON();
-          //fuelPumpOn = true; //Not sure if this is needed.
-      //  }  
+      driveFuelpump(1); // fuel pump on
     }
     else
     {
@@ -806,7 +798,7 @@ void loop()
       ignitionCount = 0;
       ignitionOn = false;
       fuelOn = false;
-      if (fpPrimed == true) {driveFuelpump(0);}// digitalWrite(pinFuelPump, LOW); fuelPumpOn = false; } //Turn off the fuel pump, but only if the priming is complete  
+      if (fpPrimed == true) {driveFuelpump(0);} //Turn off the fuel pump, but only if the priming is complete  
       disableIdle(); //Turn off the idle PWM
       BIT_CLEAR(currentStatus.engine, BIT_ENGINE_CRANK); //Clear cranking bit (Can otherwise get stuck 'on' even with 0 rpm)
       BIT_CLEAR(currentStatus.engine, BIT_ENGINE_WARMUP); //Same as above except for WUE
@@ -818,7 +810,7 @@ void loop()
           {
       initialiseTriggers();
           }
-        driveVVT_1(0);//VVT_PIN_LOW();
+      driveVVT_1(0);
       DISABLE_VVT_TIMER();
       boostDisable();
     }
