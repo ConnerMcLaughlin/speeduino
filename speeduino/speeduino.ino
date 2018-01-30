@@ -269,7 +269,7 @@ void setup()
   initialiseFuelPump();
   initialiseIdle();
   initialiseFan1();
-  //initialiseFan2();
+  initialiseFan2();
   initialiseAuxPWM();
   initialiseCorrections();
   initialiseADC();

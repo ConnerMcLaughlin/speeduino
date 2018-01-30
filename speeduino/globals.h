@@ -176,7 +176,7 @@ const char TSfirmwareVersion[] = "Speeduino 2016.09";
 
 const byte data_structure_version = 2; //This identifies the data structure when reading / writing.
 //const byte page_size = 64;
-const int16_t npage_size[11] = {0,288,128,288,128,288,128,240,192,128,192};
+const int16_t npage_size[11] = {0,288,128,288,128,288,160,240,192,128,192};
 //const byte page11_size = 128;
 #define MAP_PAGE_SIZE 288
 
@@ -437,7 +437,7 @@ struct config2 {
   int8_t baroMin; //Must be signed
   uint16_t baroMax;
 
-  byte unused1_64[61];
+  byte unused1_67[61];
 
 #if defined(CORE_AVR)
   };
@@ -503,7 +503,7 @@ struct config4 {
   byte ignBypassPin : 6; //Pin the ignition bypass is activated on
   byte ignBypassHiLo : 1; //Whether this should be active high or low.
 
-  byte unused2_64[64];
+  byte unused2_64[63];
 
 #if defined(CORE_AVR)
   };
@@ -591,7 +591,16 @@ struct config6 {
 
   byte iacStepHome; //When using a stepper motor, the number of steps to be taken on startup to home the motor
   byte iacStepHyster; //Hysteresis temperature (*10). Eg 2.2C = 22
-
+  byte iacHighIdleup_Enable :1;    // Enable/disable idle up feature
+  byte iacHighIdleHold_Enable :1;  //  Enable/disable idle hold feature
+  byte iacHighIdleHold_RPM ;       // Idle hold rpm limit
+  byte iacHighIdleHold_TPS;         // idle hold tps limit
+  byte iacHighIdleHold_Delay;      // idle hold holding time
+  byte iacHighIdleHold_Max;        // idle hold max idle value limit
+  byte iacHighIdleAC;              // AC high idle adder value
+  byte iacHighIdleTRANS;           // Transmission high idle adder value
+  byte iacHighIdleTRANSPin :6 ;    // input pin for transmission high idle 
+  
   byte fan1Inv : 1;        // Fan output inversion bit
   byte fan1Enable : 1;     // Fan enable bit. 0=Off, 1=On/Off
   byte fan1Pin : 6;
@@ -599,6 +608,44 @@ struct config6 {
   byte fan1Hyster;         // Fan hysteresis
   byte fan1Freq;           // Fan PWM frequency
   byte fan1PWMBins[4];     //Temperature Bins for the PWM fan control
+
+  byte fan2valid ;         // set to the pin fan2 is on , if ==255 then no hardware support
+  byte fan2Inv : 1;        // Fan2 output inversion bit
+  byte fan2Enable : 1;     // Fan2 enable bit. 0=Off, 1=On/Off
+  byte fan2Pin : 6;
+  byte fan2SP;             // Cooling fan2 start temperature
+  byte fan2Hyster;         // Fan2 hysteresis
+  byte fan2Freq;           // Fan2 PWM frequency
+  byte fan2PWMBins[4];     //Temperature Bins for the PWM fan2 control
+
+  byte CELvalid;                  // set to the pin CEL is on , if ==255 then no hardware support
+  byte CELEnable :1 ;             // Enable == 1 , Disabled == 0
+  byte CELPin :6 ;               // Pin number CEL light is on
+  byte CELcheckflashEnable:1 ;   // Startup CEL light flash Enable/disable
+  byte CELcheckflashTime :3 ;    // startup CEL light flash on duration(in seconds)
+  byte CELshiftlightEnable :1 ;  // CEL shift light enable/disable
+  byte CELshiftlightRpm ;         // CEL shift light RPM setpoint
+
+  byte ACDemand_valid ;           // set to the pin ACDemand input is on , if ==255 then no hardware support
+  byte ACClutch_valid ;           // set to the pin ACClutch Output is on , if ==255 then no hardware support
+  byte ACPressure_valid ;         // set to the pin ACPressure Switch input is on , if ==255 then no hardware support
+  byte ACEvaptemp_valid ;         // set to the pin ACEvap Temperature input is on , if ==255 then no hardware support
+  byte ACEnable :1 ;              // Enable/disable Air Con (AC) control
+  byte ACDemand_trig :1 ;         // AC demand input active high/low (low == 0 , high == 1)
+  byte ACDemand_pin :6 ;         // AC demand input pin
+  byte ACClutch_enable :1 ;       // Enable/disable AC Clutch Output
+  byte ACClutch_trig : 1 ;        // AC clutch output active high/low (low == 0 , high == 1)
+  byte ACClutch_pin : 6 ;         // AC clutch output pin
+  byte ACPressure_enable :1 ;     // Enable/disable AC pressure switch input
+  byte ACPressure_trig :1 ;       // AC Pressure switch input active high/low (low == 0 , high == 1) 
+  byte ACPressure_Pin : 6 ;       // AC pressure switch input pin
+  byte ACEvapTemp_sp ;            // AC evap temp sense set point
+  byte ACEvaptemp_hys ;           // AC Evap temp switching point hystersis
+  byte ACEvaptemp_enable:1 ;        // Enable/disable AC Evap temp sense
+  byte ACEvaptemp_trig:1 ;          // AC Pressure switch input active high/low (low == 0 , high == 1)
+  byte ACEvaptemp_pin:6 ;           // AC Evap temp sense input pin
+  byte ACFanselect:2 ;              // select fan1 , fan2 or both fans when AC control is opertive
+
 #if defined(CORE_AVR)
   };
 #else
@@ -793,6 +840,11 @@ byte pinIgnBypass; //The pin used for an ignition bypass (Optional)
 byte pinFlex; //Pin with the flex sensor attached
 byte pinBaro; //Pin that an external barometric pressure sensor is attached to (If used)
 byte pinResetControl; // Output pin used control resetting the Arduino
+byte pinACdemand ;      // AC idle up demand 
+byte pinACcompressor ;   // output to AC compressor clutch
+byte pinACevap ;        // analog temp sense input from AC evaporator
+byte pinACpressure ;    // AC pressure switch input
+byte pinTRANSdemand ;   // Transmission idle up demand
 
 // global variables // from speeduino.ino
 extern struct statuses currentStatus; // from speeduino.ino

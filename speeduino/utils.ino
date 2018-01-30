@@ -102,11 +102,17 @@ void setPinMapping(byte boardID)
       pinIdle2 = 47; //2 wire idle control
       pinStepperDir = 16; //Direction pin  for DRV8825 driver
       pinStepperStep = 17; //Step pin for DRV8825 driver
-      pinFan1 = 47; //Pin for the fan output
+      pinFan1 = 47; //Pin for the fan1 output
+      pinFan2 = 255; //Pin for the fan2 output , set to 255 as hardware does not support it
       pinFuelPump = 4; //Fuel pump output
       pinTachOut = 49; //Tacho output pin
       pinFlex = 19; // Flex sensor (Must be external interrupt enabled)
       pinResetControl = 43; //Reset control output
+      pinACdemand = 255;         // set to 255 as hardware does not support it
+      pinACcompressor = 255;         // set to 255 as hardware does not support it
+      pinACevap = 255;         // set to 255 as hardware does not support it
+      pinACpressure = 255;         // set to 255 as hardware does not support it
+      pinTRANSdemand = 255;         // set to 255 as hardware does not support it
     #endif
       break;
     case 1:
@@ -137,9 +143,15 @@ void setPinMapping(byte boardID)
       pinStepperDir = 16; //Direction pin  for DRV8825 driver
       pinStepperStep = 17; //Step pin for DRV8825 driver
       pinFan1 = 47; //Pin for the fan output
+      pinFan2 = 255; //Pin for the fan2 output , set to 255 as hardware does not support it
       pinFuelPump = 4; //Fuel pump output
       pinFlex = 2; // Flex sensor (Must be external interrupt enabled)
       pinResetControl = 43; //Reset control output
+      pinACdemand = 255;         // set to 255 as hardware does not support it
+      pinACcompressor = 255;         // set to 255 as hardware does not support it
+      pinACevap = 255;         // set to 255 as hardware does not support it
+      pinACpressure = 255;         // set to 255 as hardware does not support it
+      pinTRANSdemand = 255;         // set to 255 as hardware does not support it
       break;
     #endif
     case 2:
@@ -174,9 +186,15 @@ void setPinMapping(byte boardID)
       pinStepperStep = 17; //Step pin for DRV8825 driver
       pinStepperEnable = 26; //Enable pin for DRV8825
       pinFan1 = A13; //Pin for the fan output
+      pinFan2 = 255; //Pin for the fan2 output , set to 255 as hardware does not support it
       pinLaunch = 51; //Can be overwritten below
       pinFlex = 2; // Flex sensor (Must be external interrupt enabled)
       pinResetControl = 50; //Reset control output
+      pinACdemand = 255;         // set to 255 as hardware does not support it
+      pinACcompressor = 255;         // set to 255 as hardware does not support it
+      pinACevap = 255;         // set to 255 as hardware does not support it
+      pinACpressure = 255;         // set to 255 as hardware does not support it
+      pinTRANSdemand = 255;         // set to 255 as hardware does not support it
 
       #if defined(CORE_TEENSY)
         pinTrigger = 23;
@@ -188,6 +206,12 @@ void setPinMapping(byte boardID)
         pinCoil4 = 21;
         pinCoil3 = 30;
         pinO2 = A22;
+      pinACdemand = 255;         // set to 255 as hardware does not support it
+      pinACcompressor = 255;         // set to 255 as hardware does not support it
+      pinACevap = 255;         // set to 255 as hardware does not support it
+      pinACpressure = 255;         // set to 255 as hardware does not support it
+      pinTRANSdemand = 255;         // set to 255 as hardware does not support it
+        
       #endif
     #endif
       break;
@@ -223,6 +247,7 @@ void setPinMapping(byte boardID)
       pinStepperStep = 17; //Step pin for DRV8825 driver
       pinStepperEnable = 24; //Enable pin for DRV8825
       pinFan1 = 47; //Pin for the fan output (Goes to ULN2803)
+      pinFan2 = 255; //Pin for the fan2 output , set to 255 as hardware does not support it
       pinLaunch = 51; //Can be overwritten below
       pinFlex = 2; // Flex sensor (Must be external interrupt enabled)
       pinResetControl = 43; //Reset control output
@@ -230,6 +255,11 @@ void setPinMapping(byte boardID)
       pinHC2 = 4;
       pinHC3 = 5;
       pinHC4 = 7;
+      pinACdemand = 255;         // set to 255 as hardware does not support it
+      pinACcompressor = 255;         // set to 255 as hardware does not support it
+      pinACevap = 255;         // set to 255 as hardware does not support it
+      pinACpressure = 255;         // set to 255 as hardware does not support it
+      pinTRANSdemand = 255;         // set to 255 as hardware does not support it
 
       #if defined(CORE_TEENSY)
         pinTrigger = 23;
@@ -239,9 +269,15 @@ void setPinMapping(byte boardID)
         pinCoil1 = 31;
         pinTachOut = 28;
         pinFan1 = 27;
+        pinFan2 = 255; //Pin for the fan2 output , set to 255 as hardware does not support it
         pinCoil4 = 29;
         pinCoil3 = 30;
         pinO2 = A22;
+        pinACdemand = 255;         // set to 255 as hardware does not support it
+        pinACcompressor = 255;         // set to 255 as hardware does not support it
+        pinACevap = 255;         // set to 255 as hardware does not support it
+        pinACpressure = 255;         // set to 255 as hardware does not support it
+        pinTRANSdemand = 255;         // set to 255 as hardware does not support it
       #elif defined(STM32F4)
         pinInjector1 = PE7; //Output pin injector 1 is on
         pinInjector2 = PE8; //Output pin injector 2 is on
@@ -265,6 +301,7 @@ void setPinMapping(byte boardID)
         pinStepperEnable = PD9; //Enable pin for DRV8825
         pinDisplayReset = PE1; // OLED reset pin
         pinFan1 = PE2; //Pin for the fan output
+        pinFan2 = 255; //Pin for the fan2 output , set to 255 as hardware does not support it        
         pinFuelPump = PA6; //Fuel pump output
         pinTachOut = PA7; //Tacho output pin
         //external interrupt enabled pins
@@ -273,6 +310,11 @@ void setPinMapping(byte boardID)
         pinTrigger2 = PC6; //The Cam Sensor pin
         pinBoost = PE0; //Boost control
         pinVVT_1 = PE1; //Default VVT output
+        pinACdemand = 255;         // set to 255 as hardware does not support it
+        pinACcompressor = 255;         // set to 255 as hardware does not support it
+        pinACevap = 255;         // set to 255 as hardware does not support it
+        pinACpressure = 255;         // set to 255 as hardware does not support it
+        pinTRANSdemand = 255;         // set to 255 as hardware does not support it
       #elif defined(CORE_STM32)
         //http://docs.leaflabs.com/static.leaflabs.com/pub/leaflabs/maple-docs/0.0.12/hardware/maple-mini.html#master-pin-map
         //pins 23, 24 and 33 couldn't be used
@@ -296,6 +338,7 @@ void setPinMapping(byte boardID)
         pinStepperEnable = 14; //Enable pin for DRV8825
         pinDisplayReset = 2; // OLED reset pin
         pinFan1 = 1; //Pin for the fan output
+        pinFan2 = 255; //Pin for the fan2 output , set to 255 as hardware does not support it
         pinFuelPump = 0; //Fuel pump output
         pinTachOut = 31; //Tacho output pin
         //external interrupt enabled pins
@@ -305,6 +348,11 @@ void setPinMapping(byte boardID)
         pinBaro = pinMAP;
         pinBoost = 1; //Boost control
         pinVVT_1 = 0; //Default VVT output
+        pinACdemand = 255;         // set to 255 as hardware does not support it
+        pinACcompressor = 255;         // set to 255 as hardware does not support it
+        pinACevap = 255;         // set to 255 as hardware does not support it
+        pinACpressure = 255;         // set to 255 as hardware does not support it
+        pinTRANSdemand = 255;         // set to 255 as hardware does not support it
       #endif
       break;
 
@@ -337,9 +385,15 @@ void setPinMapping(byte boardID)
       pinStepperDir = 16; //Direction pin  for DRV8825 driver
       pinStepperStep = 17; //Step pin for DRV8825 driver
       pinFan1 = 35; //Pin for the fan output
+      pinFan2 = 255; //Pin for the fan2 output , set to 255 as hardware does not support it
       pinLaunch = 12; //Can be overwritten below
       pinFlex = 3; // Flex sensor (Must be external interrupt enabled)
       pinResetControl = 44; //Reset control output
+      pinACdemand = 255;         // set to 255 as hardware does not support it
+      pinACcompressor = 255;         // set to 255 as hardware does not support it
+      pinACevap = 255;         // set to 255 as hardware does not support it
+      pinACpressure = 255;         // set to 255 as hardware does not support it
+      pinTRANSdemand = 255;         // set to 255 as hardware does not support it
 
       #if defined(CORE_TEENSY)
         pinTrigger = 23;
@@ -352,7 +406,13 @@ void setPinMapping(byte boardID)
         pinCoil4 = 52; //Won't work (No mapping for pin 33)
         pinFuelPump = 26; //Requires PVT4 adapter or above
         pinFan1 = 50; //Won't work (No mapping for pin 35)
+        pinFan2 = 255; //Pin for the fan2 output , set to 255 as hardware does not support it
         pinTachOut = 28; //Done
+        pinACdemand = 255;         // set to 255 as hardware does not support it
+        pinACcompressor = 255;         // set to 255 as hardware does not support it
+        pinACevap = 255;         // set to 255 as hardware does not support it
+        pinACpressure = 255;         // set to 255 as hardware does not support it
+        pinTRANSdemand = 255;         // set to 255 as hardware does not support it
       #endif
       break;
 
@@ -387,10 +447,15 @@ void setPinMapping(byte boardID)
       pinTachOut = 41; //Tacho output pin transistori puuttuu 2n2222 tähän ja 1k 12v
       pinFuelPump = 42; //Fuel pump output 2n2222
       pinFan1 = 47; //Pin for the fan output
+      pinFan2 = 255; //Pin for the fan2 output , set to 255 as hardware does not support it
       pinTachOut = 49; //Tacho output pin
       pinFlex = 2; // Flex sensor (Must be external interrupt enabled)
       pinResetControl = 26; //Reset control output
-
+      pinACdemand = 255;         // set to 255 as hardware does not support it
+      pinACcompressor = 255;         // set to 255 as hardware does not support it
+      pinACevap = 255;         // set to 255 as hardware does not support it
+      pinACpressure = 255;         // set to 255 as hardware does not support it
+      pinTRANSdemand = 255;         // set to 255 as hardware does not support it
     #endif
       break;
 
@@ -424,9 +489,15 @@ void setPinMapping(byte boardID)
       pinCLT = A1; //CLS sensor pin
       pinIAT = A0; //IAT sensor pin
       pinFan1 = 47; //Pin for the fan output
+      pinFan2 = 255; //Pin for the fan2 output , set to 255 as hardware does not support it      
       pinFuelPump = 4; //Fuel pump output
       pinTachOut = 49; //Tacho output pin
       pinResetControl = 26; //Reset control output
+      pinACdemand = 255;         // set to 255 as hardware does not support it
+      pinACcompressor = 255;         // set to 255 as hardware does not support it
+      pinACevap = 255;         // set to 255 as hardware does not support it
+      pinACpressure = 255;         // set to 255 as hardware does not support it
+      pinTRANSdemand = 255;         // set to 255 as hardware does not support it
     #endif
       break;
 
@@ -468,7 +539,66 @@ void setPinMapping(byte boardID)
       pinSpareLOut4 = 51;
       pinSpareLOut5 = 53;
       pinFan1 = 47; //Pin for the fan output
+      pinFan2 = 7; //Pin for the fan2 output , set to 255 as hardware does not support it
+      pinACdemand = 25;
+      pinACcompressor = 255;
+      pinACevap = 255;
+      pinACpressure = 255;
+      pinTRANSdemand = 255;      
+      
     #endif
+      break;
+      
+    case 35:
+      //Pin mappings as per the Eldomino Alpha ECU
+      pinInjector1 = 8; //Output pin injector 1 is on
+      pinInjector2 = 9; //Output pin injector 2 is on
+      pinInjector3 = 11; //Output pin injector 3 is on
+      pinInjector4 = 12; //Output pin injector 4 is on
+      pinInjector5 = 13; //Placeholder only - NOT USED
+      pinCoil1 = 40; //Pin for coil 1
+      pinCoil2 = 38; //Pin for coil 2
+      pinCoil3 = 52; //Pin for coil 3
+      pinCoil4 = 50; //Pin for coil 4
+      pinCoil5 = 34; //Pin for coil 5 PLACEHOLDER value for now
+      pinTrigger = 19; //The CAS pin
+      pinTrigger2 = 18; //The Cam Sensor pin
+      pinTPS = A2;//TPS input pin
+      pinMAP = A3; //MAP sensor pin
+      pinIAT = A0; //IAT sensor pin
+      pinCLT = A1; //CLS sensor pin
+      pinO2 = A8; //O2 Sensor pin
+      pinBat = A4; //Battery reference voltage pin
+      pinBaro = A6; //Baro sensor pin
+      pinSpareTemp1 = A7; //spare Analog input 1 
+      pinDisplayReset = 48; // OLED reset pin
+      pinTachOut = 49; //Tacho output pin  (Goes to ULN2803)
+      pinIdle1 = 5; //Single wire idle control
+      pinIdle2 = 6; //2 wire idle control
+      pinBoost = 7; //Boost control
+      pinVVT_1 = 4; //Default VVT output
+      pinFuelPump = 45; //Fuel pump output  (Goes to ULN2803)
+      pinStepperDir = 16; //Direction pin  for DRV8825 driver
+      pinStepperStep = 17; //Step pin for DRV8825 driver
+      pinStepperEnable = 24; //Enable pin for DRV8825
+      pinLaunch = 10; //Can be overwritten below
+      pinFan1 = 47; //Pin for the fan output (Goes to ULN2803)
+      pinFan2 = 7; //Pin for the fan2 output , set to 255 as hardware does not support it
+      pinLaunch = 51; //Can be overwritten below       
+      pinFlex = 2; // Flex sensor (Must be external interrupt enabled)
+      pinResetControl = 43; //Reset control output
+      pinHC1 = 6;
+      pinHC2 = 4;
+      pinHC3 = 5;
+      pinHC4 = 7;            
+      pinSpareLOut1 = 32; //low current output spare1 
+      pinSpareLOut2 = 34; //low current output spare2 
+      pinSpareLOut3 = 36; //low current output spare3 
+      pinACdemand = 25;
+      pinACcompressor = 255;
+      pinACevap = 255;
+      pinACpressure = 255;
+      pinTRANSdemand = 255;            
       break;
 
     case 40:
@@ -506,10 +636,16 @@ void setPinMapping(byte boardID)
       pinLaunch = 10; //Can be overwritten below
       pinFlex = 20; // Flex sensor (Must be external interrupt enabled) - ONLY WITH DB
       pinFan1 = 30; //Pin for the fan output - ONLY WITH DB
+      pinFan2 = 255; //Pin for the fan2 output , set to 255 as hardware does not support it
       pinSpareLOut1 = 32; //low current output spare1 - ONLY WITH DB
       pinSpareLOut2 = 34; //low current output spare2 - ONLY WITH DB
       pinSpareLOut3 = 36; //low current output spare3 - ONLY WITH DB
       pinResetControl = 26; //Reset control output
+      pinACdemand = 255;
+      pinACcompressor = 255;
+      pinACevap = 255;
+      pinACpressure = 255;
+      pinTRANSdemand = 255;
       break;
 
     default:
@@ -537,12 +673,18 @@ void setPinMapping(byte boardID)
       pinStepperStep = 17; //Step pin for DRV8825 driver
       pinDisplayReset = 48; // OLED reset pin
       pinFan1 = 47; //Pin for the fan output
+      pinFan2 = 255; //Pin for the fan2 output , set to 255 as hardware does not support it
       pinFuelPump = 4; //Fuel pump output
       pinTachOut = 49; //Tacho output pin
       pinFlex = 3; // Flex sensor (Must be external interrupt enabled)
       pinBoost = 5;
       pinIdle1 = 6;
       pinResetControl = 43; //Reset control output
+      pinACdemand = 255;         // set to 255 as hardware does not support it
+      pinACcompressor = 255;         // set to 255 as hardware does not support it
+      pinACevap = 255;         // set to 255 as hardware does not support it
+      pinACpressure = 255;         // set to 255 as hardware does not support it
+      pinTRANSdemand = 255;         // set to 255 as hardware does not support it
     #endif
       break;
   }
@@ -554,9 +696,18 @@ void setPinMapping(byte boardID)
   if ( (configPage2.tachoPin != 0) && (configPage2.tachoPin < BOARD_NR_GPIO_PINS) ) { pinTachOut = pinTranslate(configPage2.tachoPin); }
   if ( (configPage4.fuelPumpPin != 0) && (configPage4.fuelPumpPin < BOARD_NR_GPIO_PINS) ) { pinFuelPump = pinTranslate(configPage4.fuelPumpPin); }
   if ( (configPage6.fan1Pin != 0) && (configPage6.fan1Pin < BOARD_NR_GPIO_PINS) ) { pinFan1 = pinTranslate(configPage6.fan1Pin); }
+  configPage6.fan2valid = pinFan2;    //set fan2valid to pinfan2 setting , if set to 255  then board does not support it 
+  if (pinFan2 != 255)
+    {
+     if ( (configPage6.fan2Pin != 0) && (configPage6.fan2Pin < BOARD_NR_GPIO_PINS) ) { pinFan2 = pinTranslate(configPage6.fan2Pin); }
+    }
   if ( (configPage6.boostPin != 0) && (configPage6.boostPin < BOARD_NR_GPIO_PINS) ) { pinBoost = pinTranslate(configPage6.boostPin); }
   if ( (configPage6.vvtPin != 0) && (configPage6.vvtPin < BOARD_NR_GPIO_PINS) ) { pinVVT_1 = pinTranslate(configPage6.vvtPin); }
   if ( (configPage6.useExtBaro != 0) && (configPage6.baroPin < BOARD_NR_GPIO_PINS) ) { pinBaro = configPage6.baroPin + A0; }
+  configPage6.ACDemand_valid = pinACdemand;    //set ACDemand_valid to pinACdemand setting , if set to 255  then board does not support it 
+  configPage6.ACClutch_valid = pinACcompressor;    //set ACClutch_valid to pinACcompressor setting , if set to 255  then board does not support it 
+  configPage6.ACPressure_valid = pinACpressure;    //set ACPressure_valid to pinACpressure setting , if set to 255  then board does not support it 
+  configPage6.ACEvaptemp_valid = pinACevap;    //set ACEvapTemp_valid to pinACevap setting , if set to 255  then board does not support it 
 
   /* Reset control is a special case. If reset control is enabled, it needs its initial state set BEFORE its pinMode.
      If that doesn't happen and reset control is in "Serial Command" mode, the Arduino will end up in a reset loop

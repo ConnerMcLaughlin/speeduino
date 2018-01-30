@@ -179,8 +179,9 @@ void oneMSInterval() //Most ARM chips can simply call a function
     currentStatus.secl++;
     //**************************************************************************************************************************************************
     //Drive the fan output status
-       driveFan1(3);            // Function to turn the cooling fan on/off
-
+       driveFan1(3);            // inline Function to turn the cooling fan on/off
+       driveFan2(3);            // inline Function to turn FAN2 on/off
+       
     //Check whether fuel pump priming is complete
     if(fpPrimed == false)
     {

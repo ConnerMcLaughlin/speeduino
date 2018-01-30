@@ -12,19 +12,32 @@ Fan control
 */
 void initialiseFan1()
 {
-  fan1_pin_port = portOutputRegister(digitalPinToPort(pinFan1));
-  fan1_pin_mask = digitalPinToBitMask(pinFan1);
-  if( configPage6.fan1Inv == 1 ) { fan1HIGH = LOW; fan1LOW = HIGH; }
-  else { fan1HIGH = HIGH; fan1LOW = LOW; }
-  driveFan1(0);
+  if( configPage6.fan1Enable == 1 )
+  {
+   fan1_pin_port = portOutputRegister(digitalPinToPort(pinFan1));
+   fan1_pin_mask = digitalPinToBitMask(pinFan1);
+   if( configPage6.fan1Inv == 1 ) { fan1HIGH = LOW; fan1LOW = HIGH; }
+   else { fan1HIGH = HIGH; fan1LOW = LOW; }
+   driveFan1(0);
+  } 
+}
+
+void initialiseFan2()
+{
+  if( configPage6.fan2Enable == 1 )
+  {
+   fan2_pin_port = portOutputRegister(digitalPinToPort(pinFan2));
+   fan2_pin_mask = digitalPinToBitMask(pinFan2);
+   if( configPage6.fan2Inv == 1 ) { fan2HIGH = LOW; fan2LOW = HIGH; }
+   else { fan2HIGH = HIGH; fan2LOW = LOW; }
+   driveFan2(0);
+  } 
 }
 
 void initialiseFuelPump()
 {
   pump_pin_port = portOutputRegister(digitalPinToPort(pinFuelPump));
   pump_pin_mask = digitalPinToBitMask(pinFuelPump);
-  //if( configPage6.fan1Inv == 1 ) { fan1HIGH = LOW; fan1LOW = HIGH; }
-  //else { fan1HIGH = HIGH; fan1LOW = LOW; }
   driveFuelpump(0);
 }
 
