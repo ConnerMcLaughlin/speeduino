@@ -618,7 +618,7 @@ struct config6 {
   byte fan2Freq;           // Fan2 PWM frequency
   byte fan2PWMBins[4];     //Temperature Bins for the PWM fan2 control
 
-  byte CELvalid;                  // set to the pin CEL is on , if ==255 then no hardware support
+  byte CELlight_valid;             // set to the pin CEL is on , if ==255 then no hardware support
   byte CELEnable :1 ;             // Enable == 1 , Disabled == 0
   byte CELPin :6 ;               // Pin number CEL light is on
   byte CELcheckflashEnable:1 ;   // Startup CEL light flash Enable/disable
@@ -845,6 +845,7 @@ byte pinACcompressor ;   // output to AC compressor clutch
 byte pinACevap ;        // analog temp sense input from AC evaporator
 byte pinACpressure ;    // AC pressure switch input
 byte pinTRANSdemand ;   // Transmission idle up demand
+byte pinCELlight;
 
 // global variables // from speeduino.ino
 extern struct statuses currentStatus; // from speeduino.ino

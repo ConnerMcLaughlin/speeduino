@@ -594,11 +594,12 @@ void setPinMapping(byte boardID)
       pinSpareLOut1 = 32; //low current output spare1 
       pinSpareLOut2 = 34; //low current output spare2 
       pinSpareLOut3 = 36; //low current output spare3 
-      pinACdemand = 25;
-      pinACcompressor = 255;
-      pinACevap = 255;
-      pinACpressure = 255;
-      pinTRANSdemand = 255;            
+      pinACdemand = 26;       //digital input
+      pinACcompressor = 44;   // 
+      pinACevap = A10;        //must be an analog pin
+      pinACpressure = 28;     //
+      pinTRANSdemand = 255;   //
+      pinCELlight = 30;       //                
       break;
 
     case 40:
@@ -708,6 +709,7 @@ void setPinMapping(byte boardID)
   configPage6.ACClutch_valid = pinACcompressor;    //set ACClutch_valid to pinACcompressor setting , if set to 255  then board does not support it 
   configPage6.ACPressure_valid = pinACpressure;    //set ACPressure_valid to pinACpressure setting , if set to 255  then board does not support it 
   configPage6.ACEvaptemp_valid = pinACevap;    //set ACEvapTemp_valid to pinACevap setting , if set to 255  then board does not support it 
+  configPage6.CELlight_valid = pinCELlight;    //set CELlight_valid to pinCELlight setting , if set to 255  then board does not support it 
 
   /* Reset control is a special case. If reset control is enabled, it needs its initial state set BEFORE its pinMode.
      If that doesn't happen and reset control is in "Serial Command" mode, the Arduino will end up in a reset loop
